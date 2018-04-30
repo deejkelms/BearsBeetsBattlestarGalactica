@@ -3,7 +3,10 @@ import axios from 'axios'
 import { Col, Row } from 'react-bootstrap'
 import PubSub from 'pubsub-js'
 import moment from 'moment'
-// import { Link } from 'react-router-dom'
+import facebook from './images/facebook-square.svg'
+import instagram from './images/instagram.svg'
+import twitter from './images/twitter-square.svg'
+import { Link } from 'react-router-dom'
 
 import Img from './Img'
 
@@ -119,6 +122,18 @@ export default class SelectedShow extends Component {
               </div>
             </Col>
             <Col sm={3} className='showSidebar'>
+              <div id='social'>
+                <a href={`https://www.facebook.com/${facebook_id}`}>
+                  <img src={facebook} alt='facebook'></img>
+                </a>
+                <a href={`https://www.instagram.com/${instagram_id}`}>
+                  <img src={instagram} alt='instagram'></img>
+                </a>
+                <a href={`https://www.twitter.com/${twitter_id}`}>
+                  <img src={twitter} alt='twitter'></img>
+                </a>
+              </div>
+
               <div id="credits">
                 <h3> Creators </h3>
                   {created_by && created_by.map((creator, idx) => {
@@ -142,8 +157,9 @@ export default class SelectedShow extends Component {
 
             <Col sm={10} smOffset={1}>
               <div id='seasons'>
-                <h4 className='title'> {seasons && seasons.length} Seasons </h4>
-                <h6> Last Air Date: {last_air_date} </h6>
+                <h4 className='title'> {seasons && seasons.length} Seasons
+                  <h6> Last Air Date: {moment(last_air_date).format('LL')} </h6>
+                </h4>
                 <Row>
                   {seasons && seasons.map((season, idx) => {
                     return (
