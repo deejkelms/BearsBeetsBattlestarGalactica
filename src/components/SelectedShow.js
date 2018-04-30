@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Col, Row } from 'react-bootstrap'
+import axios from 'axios'
 import PubSub from 'pubsub-js'
 import moment from 'moment'
-import facebook from './images/facebook-square.svg'
-import instagram from './images/instagram.svg'
-import twitter from './images/twitter-square.svg'
-import { Link } from 'react-router-dom'
 
+import facebook from '../images/facebook-square.svg'
+import instagram from '../images/instagram.svg'
+import twitter from '../images/twitter-square.svg'
 import Img from './Img'
-
+// so bad
 const URL = 'http://localhost:4000/shows/'
 const IMG_URL = 'https://image.tmdb.org/t/p/original/'
-const API_KEY = '0e22f21a01e286fe1da4827c9cb155dc'
 const API_URL = 'https://api.themoviedb.org/3/tv'
+const API_KEY = '0e22f21a01e286fe1da4827c9cb155dc'
 
 export default class SelectedShow extends Component {
   constructor() {

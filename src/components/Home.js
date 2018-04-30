@@ -3,10 +3,11 @@ import axios from 'axios'
 import PubSub from 'pubsub-js'
 
 import SearchResults from './SearchResults'
-import bear from './images/bears.svg'
-import beets from './images/beets.svg'
-import bsg from './images/bsg.svg'
+import bear from '../images/bears.svg'
+import beets from '../images/beets.svg'
+import bsg from '../images/bsg.svg'
 
+// this is really bad, I but I ran out of time :(
 const URL = 'http://localhost:4000/shows/'
 const API_KEY = '0e22f21a01e286fe1da4827c9cb155dc'
 const API_URL = 'https://api.themoviedb.org/3/'
