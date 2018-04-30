@@ -8,11 +8,7 @@ import facebook from '../images/facebook-square.svg'
 import instagram from '../images/instagram.svg'
 import twitter from '../images/twitter-square.svg'
 import Img from './Img'
-// so bad
-const URL = 'http://localhost:4000/shows/'
-const IMG_URL = 'https://image.tmdb.org/t/p/original/'
-const API_URL = 'https://api.themoviedb.org/3/tv'
-const API_KEY = '0e22f21a01e286fe1da4827c9cb155dc'
+import { Config } from '../config.js'
 
 export default class SelectedShow extends Component {
   constructor() {
@@ -36,9 +32,9 @@ export default class SelectedShow extends Component {
     const showId = newProps.match.params.showId
 
     axios.all([
-      axios.get(`${URL}/${showId}`),
-      axios.get(`${API_URL}/${showId}/credits?api_key=${API_KEY}&languate=en-US`),
-      axios.get(`${API_URL}/${showId}/external_ids?api_key=${API_KEY}&language=en-US`)
+      axios.get(`${Config.URL}/${showId}`),
+      axios.get(`${Config.API_URL}/${showId}/credits?api_key=${Config.API_KEY}&languate=en-US`),
+      axios.get(`${Config.API_URL}/${showId}/external_ids?api_key=${Config.API_KEY}&language=en-US`)
     ])
     .then(axios.spread((overview, credits, social) => {
       return [overview.data, credits.data, social.data]
@@ -46,7 +42,7 @@ export default class SelectedShow extends Component {
     .then(data => {
       this.setState({
         show: data[0],
-        backgroundImage: `${IMG_URL}${data[0].backdrop_path}`,
+        backgroundImage: `${Config.IMG_URL}${data[0].backdrop_path}`,
         credits: data[1],
         social: data[2]
       })
@@ -54,7 +50,7 @@ export default class SelectedShow extends Component {
   }
 
   deleteShow = (id) => {
-    axios.delete(`${URL}${id}`)
+    axios.delete(`${Config.URL}${id}`)
       .then(response => {
         PubSub.publish('List Updated', 'goodbye world!')
         this.props.history.push("/");
@@ -66,35 +62,25 @@ export default class SelectedShow extends Component {
 
   render() {
     const {
-      name, id, overview, first_air_date, last_air_date, poster_path, status,
-      created_by, genres, certification, networks, number_of_episodes, seasons, popularity
+      name, id, overview, first_air_date, last_air_date, poster_path,
+      created_by, genres, networks, number_of_episodes, seasons, popularity
     } = this.state.show
     const { cast } = this.state.credits
-    const { facebook_id, twitter_id, instagram_id, imdb_id} = this.state.social
+    const { facebook_id, twitter_id, instagram_id } = this.state.social
     const network = networks && networks[0]
-    console.log("this.state.show -", this.state.show)
     return(
       <div className='show'>
         <div className='showImage' style={{backgroundImage: `url(${this.state.backgroundImage})`}}>
           <div className='showOverview'>
-            {
-              network && <Img path={network.logo_path} />
-            }
-            {
-
-            }
+            { network && <Img path={network.logo_path} /> }
             <h1>
-              {name}
-              <small>({moment(first_air_date).format('Y')})</small>
+              {name}{' '}<small>({moment(first_air_date).format('Y')})</small>
             </h1>
             <div>
               <p>
                {overview}
               </p>
             </div>
-            <button>
-              More Info
-            </button>
             <button onClick={() => this.deleteShow(id)}>
               Remove Show
             </button>
@@ -121,6 +107,7 @@ export default class SelectedShow extends Component {
               </div>
             </Col>
             <Col sm={3} className='showSidebar'>
+
               <div id='social'>
                 <a href={`https://www.facebook.com/${facebook_id}`}>
                   <img src={facebook} alt='facebook'></img>
@@ -133,8 +120,12 @@ export default class SelectedShow extends Component {
                 </a>
               </div>
 
+              <div id='popularity'>
+                <h3>User Score{ Math.round(popularity, 1) }%</h3>
+              </div>
+
               <div id="credits">
-                <h3> Creators </h3>
+                <h3> Created By </h3>
                   {created_by && created_by.map((creator, idx) => {
                     return (
                       <span key={idx}>{creator.name} </span>
@@ -150,15 +141,18 @@ export default class SelectedShow extends Component {
                     })}
                     </ul>
                   </div>
-
+              </div>
+              <div id='poster'>
+                <Img path={poster_path} />
               </div>
             </Col>
 
             <Col sm={10} smOffset={1}>
               <div id='seasons'>
-                <h4 className='title'> {seasons && seasons.length} Seasons
-                  <h6> Last Air Date: {moment(last_air_date).format('LL')} </h6>
+                <h4 className='title'> {seasons && seasons.length} Seasons and {number_of_episodes} Episodes
                 </h4>
+                <p> Last Air Date: {moment(last_air_date).format('LL')} </p>
+
                 <Row>
                   {seasons && seasons.map((season, idx) => {
                     return (

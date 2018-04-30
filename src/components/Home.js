@@ -6,11 +6,7 @@ import SearchResults from './SearchResults'
 import bear from '../images/bears.svg'
 import beets from '../images/beets.svg'
 import bsg from '../images/bsg.svg'
-
-// this is really bad, I but I ran out of time :(
-const URL = 'http://localhost:4000/shows/'
-const API_KEY = '0e22f21a01e286fe1da4827c9cb155dc'
-const API_URL = 'https://api.themoviedb.org/3/'
+import { Config } from '../config.js'
 
 export default class Home extends Component {
   constructor() {
@@ -30,7 +26,7 @@ export default class Home extends Component {
 
   getInfo = (evt) => {
     evt.preventDefault()
-    axios.get(`${API_URL}search/tv?api_key=${API_KEY}&language=en-US&query=${this.state.query}`)
+    axios.get(`${Config.API_URL}search/tv?api_key=${Config.API_KEY}&language=en-US&query=${this.state.query}`)
       .then(response => {
         return response.data
       })
@@ -42,12 +38,12 @@ export default class Home extends Component {
   }
 
   addShow = (result) => {
-    axios.get(`${API_URL}tv/${result.id}?api_key=${API_KEY}&language=en-US`)
+    axios.get(`${Config.API_URL}tv/${result.id}?api_key=${Config.API_KEY}&language=en-US`)
       .then(response => {
         return response.data
       })
       .then(data => {
-        axios.post(`${URL}`, data)
+        axios.post(`${Config.URL}`, data)
           .then(response => {
             PubSub.publish('List Updated', 'hello world!')
             this.props.history.push(`/shows/${data.id}`);
@@ -68,7 +64,7 @@ export default class Home extends Component {
         </div>
           <form onSubmit={this.getInfo}>
             <input
-              placeholder="Moar TV..."
+              placeholder="Moooaar TV..."
               onChange={this.handleInputChange}
             />
             <button>Search</button>

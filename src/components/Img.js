@@ -1,12 +1,11 @@
 import React from 'react'
-
-const IMG_URL = 'https://image.tmdb.org/t/p/original/'
+import { Config } from '../config.js'
 
 const Img = (props) => {
   const img = props.path
   let src;
   if (img) {
-    src = `${IMG_URL}${img}`
+    src = `${Config.IMG_URL}${img}`
   } else {
     src = 'http://placekitten.com/g/200/300'
   }

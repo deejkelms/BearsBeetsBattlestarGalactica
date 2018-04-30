@@ -4,8 +4,7 @@ import axios from 'axios'
 import PubSub from 'pubsub-js'
 import classnames from 'classnames'
 
-const URL = 'http://localhost:4000/shows/'
-const IMG_URL = 'https://image.tmdb.org/t/p/original/'
+import { Config } from '../config.js'
 
 export default class Shows extends Component {
 
@@ -22,7 +21,7 @@ export default class Shows extends Component {
     this.token = PubSub.subscribe('List Updated', this.subscriber)
 
     // fetch inital data from json server and set to state
-    axios.get(URL)
+    axios.get(Config.URL)
     .then((response) => {
       this.setState({
         shows: response.data
@@ -36,7 +35,7 @@ export default class Shows extends Component {
 
   // listening and setting state on changes to shows list
   subscriber = (msg, data) => {
-    axios.get(URL)
+    axios.get(Config.URL)
     .then((response) => {
       this.setState({
         shows: response.data
