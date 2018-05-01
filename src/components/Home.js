@@ -26,7 +26,7 @@ export default class Home extends Component {
 
   getInfo = (evt) => {
     evt.preventDefault()
-    axios.get(`${Config.API_URL}search/tv?api_key=${Config.API_KEY}&language=en-US&query=${this.state.query}`)
+    axios.get(`${Config.SEARCH_URL}/tv?api_key=${Config.API_KEY}&language=en-US&query=${this.state.query}`)
       .then(response => {
         return response.data
       })
@@ -38,7 +38,7 @@ export default class Home extends Component {
   }
 
   addShow = (result) => {
-    axios.get(`${Config.API_URL}tv/${result.id}?api_key=${Config.API_KEY}&language=en-US`)
+    axios.get(`${Config.API_URL}/${result.id}?api_key=${Config.API_KEY}&language=en-US`)
       .then(response => {
         return response.data
       })
