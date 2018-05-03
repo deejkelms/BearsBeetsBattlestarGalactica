@@ -198,6 +198,9 @@ input:focus {
     border: none;
     padding: 8px 30px;
     margin-right: 10px;
+    &:hover {
+      background: red;
+    }
   }
 }
 
