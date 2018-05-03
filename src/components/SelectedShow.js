@@ -121,7 +121,7 @@ export default class SelectedShow extends Component {
               </div>
 
               <div id='popularity'>
-                <h3>User Score{ Math.round(popularity, 1) }%</h3>
+                <h3>Popularity: { Math.round(popularity, 1) }%</h3>
               </div>
 
               <div id="credits">
